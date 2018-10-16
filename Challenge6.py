@@ -65,6 +65,8 @@ def english_score(b):
 
 
 def pick_english(l):
+    """Given a list of strings, return the one that is most English-like
+    in letter frequency."""
     strings = [item[0] for item in l]
     current_score = - sys.maxsize - 1
     current_str = None
@@ -81,6 +83,7 @@ def pick_english(l):
 
 
 def fixed_XOR(b1, b2):
+    """XOR two same-length strings"""
     l = []
     for i in range(len(b1)):
         byte = (b1[i] ^ b2[i]).to_bytes(1, 'little')
@@ -91,6 +94,8 @@ def fixed_XOR(b1, b2):
 
 
 def decipher_single_XOR(b):
+    """Given a message that has been XOR'd with a single character,
+        return the message."""
     strings = []
 
     for i in range(0, 128):
@@ -104,12 +109,19 @@ def decipher_single_XOR(b):
     return pick_english(strings)
 
 
-def break_repeating_key_XOR(s, keysize=None):
-    if keysize is None: keysize = get_keysize(s)
+def break_repeating_key_XOR(s):
+    """Given a ciphertext that has been enciphered
+    with repeating key XOR, find the key"""
+
+    # Determine the keysize
+    keysize = get_keysize(s)
+
+    # Create a bytearray for each letter in the key
     blocks = [bytearray() for i in range(keysize)]
     for i in range(len(s)):
         blocks[i % keysize].append(s[i])
 
+    # Determine what the key is, block by block
     key = ""
     for block in blocks:
         key += chr(decipher_single_XOR(bytes(block))[1])
@@ -117,24 +129,37 @@ def break_repeating_key_XOR(s, keysize=None):
     return key
 
 
-if __name__ == "__main__":
-    with open("c6.txt", "r") as file:
-        text = file.read().encode('ascii')
-    t = codecs.decode(text, 'base64')
+def decipher_repeating_key_XOR(ciphertext, key):
+    """Given a message that has been enciphered using key and
+    repeating key XOR, return the original message."""
 
-    key = break_repeating_key_XOR(t)
-
+    # Make blocks of ciphertext for each letter of the key
     blocks = [bytearray() for i in range(len(key))]
-    for i in range(len(t)):
-        blocks[i % len(key)].append(t[i])
+    for i in range(len(ciphertext)):
+        blocks[i % len(key)].append(ciphertext[i])
     m = []
 
+    # Decipher each block of ciphertext
     for i in range(len(blocks)):
         c = bytearray()
         for j in range(len(blocks[i])):
             c.append(ord(key[i]))
         m.append(fixed_XOR(blocks[i], bytes(c)))
+
+    # Piece the message back together
     message = ""
-    for i in range(len(t)):
+    for i in range(len(ciphertext)):
         message += chr(m[i % len(m)][i // len(m)])
-    print(message)
+    return message
+
+
+if __name__ == "__main__":
+    with open("c6.txt", "r") as file:
+        text = file.read().encode('ascii')
+    t = codecs.decode(text, 'base64')
+
+    # Find the key
+    key = break_repeating_key_XOR(t)
+
+
+    print(decipher_repeating_key_XOR(t, key))

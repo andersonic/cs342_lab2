@@ -1,6 +1,7 @@
 import sys, codecs, string
 import Challenge2 as c2
 import Challenge3 as c3
+import Challenge5 as c5
 
 
 def hamming_distance(b1, b2):
@@ -68,30 +69,6 @@ def break_repeating_key_XOR(s):
     return key
 
 
-def decipher_repeating_key_XOR(ciphertext, key):
-    """Given a message that has been enciphered using key and
-    repeating key XOR, return the original message."""
-
-    # Make blocks of ciphertext for each letter of the key
-    blocks = [bytearray() for i in range(len(key))]
-    for i in range(len(ciphertext)):
-        blocks[i % len(key)].append(ciphertext[i])
-    m = []
-
-    # Decipher each block of ciphertext
-    for i in range(len(blocks)):
-        c = bytearray()
-        for j in range(len(blocks[i])):
-            c.append(ord(key[i]))
-        m.append(c2.fixed_XOR(blocks[i], bytes(c)))
-
-    # Piece the message back together
-    message = ""
-    for i in range(len(ciphertext)):
-        message += chr(m[i % len(m)][i // len(m)])
-    return message
-
-
 if __name__ == "__main__":
     with open("6.txt", "r") as file:
         text = file.read().encode('ascii')
@@ -99,5 +76,6 @@ if __name__ == "__main__":
 
     # Find the key
     key = break_repeating_key_XOR(t)
+    key = bytes(key, encoding='ascii')
 
-    print(decipher_repeating_key_XOR(t, key))
+    print(codecs.decode(c5.repeating_key_XOR(t, key)))

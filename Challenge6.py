@@ -1,4 +1,4 @@
-import sys, codecs
+import sys, codecs, string
 
 
 def hamming_distance(b1, b2):
@@ -59,8 +59,8 @@ def english_score(b):
             count -= 1
         elif c == 'v' or c == 'k' or c == 'x' or c == 'j' or c == 'q' or c == 'z':
             count -= 2
-        elif not 'a' <= c <= 'z':
-            count -= 3
+        elif c not in string.printable:
+            count -= 10
     return count
 
 
@@ -154,12 +154,11 @@ def decipher_repeating_key_XOR(ciphertext, key):
 
 
 if __name__ == "__main__":
-    with open("c6.txt", "r") as file:
+    with open("6.txt", "r") as file:
         text = file.read().encode('ascii')
     t = codecs.decode(text, 'base64')
 
     # Find the key
     key = break_repeating_key_XOR(t)
-
 
     print(decipher_repeating_key_XOR(t, key))

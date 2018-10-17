@@ -1,5 +1,8 @@
-import Challenge2 as Z
-import codecs, sys
+import Challenge2 as c2
+import codecs, sys, string
+
+
+str_to_decipher = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
 
 
 def english_score(s):
@@ -16,8 +19,8 @@ def english_score(s):
             count -= 1
         elif c == 'v' or c == 'k' or c == 'x' or c == 'j' or c == 'q' or c == 'z':
             count -= 2
-        elif not 'a' <= c <= 'z':
-            count -= 3
+        elif c not in string.printable:
+            count -= 10
     return count
 
 
@@ -57,10 +60,10 @@ def decipher_single_XOR(s):
     for i in range(0, 127):
         b = bytearray()
         for j in range(len(s)):
-            b.append(ord(chr(i)))
+            b.append(i)
         XOR_str = codecs.encode(b, 'hex').decode()
 
-        temp = codecs.encode(Z.fixed_XOR(s, XOR_str))
+        temp = codecs.encode(c2.fixed_XOR(s, XOR_str))
         temp = hexstr_to_str(temp)
 
         if temp: strings.append(temp)
@@ -71,4 +74,4 @@ def decipher_single_XOR(s):
 
 
 if __name__ == "__main__":
-    print(decipher_single_XOR("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"))
+    print(decipher_single_XOR(str_to_decipher))

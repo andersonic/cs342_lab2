@@ -1,6 +1,10 @@
 import codecs
 
 
+str1 = "1c0111001f010100061a024b53535009181c"
+str2 = "686974207468652062756c6c277320657965"
+
+
 def fixed_XOR(s1, s2):
     """XOR two same-length strings"""
 
@@ -21,4 +25,4 @@ def fixed_XOR(s1, s2):
 
 
 if __name__ == "__main__":
-    print(fixed_XOR("1c0111001f010100061a024b53535009181c", "686974207468652062756c6c277320657965"))
+    print(fixed_XOR(str1, str2))

@@ -36,7 +36,7 @@ def detect_AES_ECB(ciphertexts):
 
 
 if __name__ == "__main__":
-    with open("c8.txt", "r") as file:
+    with open("8.txt", "r") as file:
         messages = file.read().split("\n")
 
     messages = [codecs.decode(message.encode('ascii'), 'hex') for message in messages]

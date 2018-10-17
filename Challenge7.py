@@ -10,7 +10,7 @@ def decrypt_AES_ECB(s, k):
 
 
 if __name__ == "__main__":
-    with open("c7.txt", "r") as file:
+    with open("7.txt", "r") as file:
         ciphertext = file.read().encode('ascii')
     key = "YELLOW SUBMARINE"
 

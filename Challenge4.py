@@ -1,5 +1,5 @@
 import Challenge3 as c3
-
+import codecs
 
 filename = ''
 
@@ -20,4 +20,6 @@ if __name__ == "__main__":
         if temp: potential_messages.append(temp)
 
     # Pick the message that is most likely to be English
-    print(c3.pick_english(potential_messages))
+    message, key = c3.pick_english(potential_messages)
+    print("Message: " + codecs.decode(message))
+    print("Key: " + chr(key))

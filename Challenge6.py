@@ -1,4 +1,6 @@
 import sys, codecs, string
+import Challenge2 as c2
+import Challenge3 as c3
 
 
 def hamming_distance(b1, b2):
@@ -46,69 +48,6 @@ def get_keysize(s):
     return current_size
 
 
-def english_score(b):
-    """Rate how English-like a piece of text is, based on letter frequency."""
-    count = 0
-    for c in b:
-        c = chr(c)
-        if c == 'e' or c == 't' or c == 'a' or c == 'o' or c == 'i' or c == 'n':
-            count += 2
-        elif c == 's' or c == 'r' or c == 'h' or c =='l' or c == 'd' or c =='c':
-            count += 1
-        elif c == 'f' or c == 'p' or c =='g' or c == 'w' or c =='y' or c =='b':
-            count -= 1
-        elif c == 'v' or c == 'k' or c == 'x' or c == 'j' or c == 'q' or c == 'z':
-            count -= 2
-        elif c not in string.printable:
-            count -= 10
-    return count
-
-
-def pick_english(l):
-    """Given a list of strings, return the one that is most English-like
-    in letter frequency."""
-    strings = [item[0] for item in l]
-    current_score = - sys.maxsize - 1
-    current_str = None
-    current_chr = None
-
-    for i in range(len(strings)):
-        score = english_score(strings[i])
-        if score > current_score:
-            current_str = strings[i]
-            current_score = score
-            current_chr = l[i][1]
-
-    return current_str, current_chr
-
-
-def fixed_XOR(b1, b2):
-    """XOR two same-length strings"""
-    l = []
-    for i in range(len(b1)):
-        byte = (b1[i] ^ b2[i]).to_bytes(1, 'little')
-        t = int.from_bytes(byte, byteorder='little')
-        l.append(t)
-    r = bytes(l)
-    return r
-
-
-def decipher_single_XOR(b):
-    """Given a message that has been XOR'd with a single character,
-        return the message."""
-    strings = []
-
-    for i in range(0, 128):
-        c = bytearray()
-        for j in range(len(b)):
-            c.append(ord(chr(i)))
-
-        temp = fixed_XOR(b, bytes(c))
-
-        if temp: strings.append((temp, i))
-    return pick_english(strings)
-
-
 def break_repeating_key_XOR(s):
     """Given a ciphertext that has been enciphered
     with repeating key XOR, find the key"""
@@ -124,7 +63,7 @@ def break_repeating_key_XOR(s):
     # Determine what the key is, block by block
     key = ""
     for block in blocks:
-        key += chr(decipher_single_XOR(bytes(block))[1])
+        key += chr(c3.decipher_single_XOR(bytes(block))[1])
 
     return key
 
@@ -144,7 +83,7 @@ def decipher_repeating_key_XOR(ciphertext, key):
         c = bytearray()
         for j in range(len(blocks[i])):
             c.append(ord(key[i]))
-        m.append(fixed_XOR(blocks[i], bytes(c)))
+        m.append(c2.fixed_XOR(blocks[i], bytes(c)))
 
     # Piece the message back together
     message = ""

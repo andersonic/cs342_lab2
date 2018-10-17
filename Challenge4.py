@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # Get the most likely message from each ciphertext
     for text in ciphertexts:
-        temp = c3.decipher_single_XOR(text)
+        temp = c3.aux_decipher_single_XOR(text)
         if temp: potential_messages.append(temp)
 
     # Pick the message that is most likely to be English

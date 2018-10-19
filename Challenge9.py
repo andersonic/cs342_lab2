@@ -1,5 +1,6 @@
 import codecs
 
+
 def pad_text(text_to_pad, length):
     assert len(text_to_pad) <= length
     padding_amount = length - len(text_to_pad)

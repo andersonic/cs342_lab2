@@ -1,5 +1,4 @@
-import sys, codecs, string
-import Challenge2 as c2
+import sys, codecs
 import Challenge3 as c3
 import Challenge5 as c5
 

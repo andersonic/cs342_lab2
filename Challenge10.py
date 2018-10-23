@@ -7,6 +7,7 @@ def aux_encrypt_AES_ECB(s, k):
     cipher = AES.new(k, AES.MODE_ECB)
     return cipher.encrypt(s)
 
+
 def encrypt_AES_ECB(s, k):
     return aux_decrypt_AES_ECB(pad_to_16(s), k)
 

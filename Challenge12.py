@@ -13,7 +13,7 @@ def encryption_oracle(input, k):
 def find_blocksize():
     count = 1
     prev_block = None
-    while True:
+    while count > 0:
         current_block = encryption_oracle(bytes("a" * count, encoding='ascii'), key)[0:16]
         if current_block == prev_block:
             return count - 1

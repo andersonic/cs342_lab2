@@ -1,10 +1,16 @@
 import os
+import Challenge10 as c10
 
 uid = 0
+key = os.urandom(16)
 
 
-def generate_random_AES_key():
-    return os.urandom(16)
+def encipher_profile(profile):
+    return c10.encrypt_AES_ECB(profile, key)
+
+
+def decipher_profile(profile):
+    return c10.decrypt_AES_ECB(profile, key)
 
 
 def parse(s):
@@ -26,5 +32,10 @@ def profile_for(email):
 
 
 if __name__ == "__main__":
-    print(profile_for("test"))
-    print(parse(profile_for('test')))
+    s = profile_for("mail@gmail.com").encode(encoding='ascii')
+    c = encipher_profile(s)
+    d = decipher_profile(c)
+
+    print(s)
+    print(c)
+    print(d)

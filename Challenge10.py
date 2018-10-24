@@ -9,12 +9,13 @@ def aux_encrypt_AES_ECB(s, k):
 
 
 def encrypt_AES_ECB(s, k):
-    return aux_decrypt_AES_ECB(pad_to_16(s), k)
+    return aux_encrypt_AES_ECB(pad_to_16(s), k)
 
 
 def aux_decrypt_AES_ECB(s,k):
     cipher = AES.new(k, AES.MODE_ECB)
     return cipher.decrypt(s)
+
 
 def decrypt_AES_ECB(s, k):
     return unpad(aux_decrypt_AES_ECB(s,k))

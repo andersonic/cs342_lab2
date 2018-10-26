@@ -33,9 +33,8 @@ def profile_for(email):
 
 if __name__ == "__main__":
     s = profile_for("mail@gmail.com").encode(encoding='ascii')
+    a = encipher_profile("'admin'".encode(encoding='ascii'))
     c = encipher_profile(s)
-    d = decipher_profile(c)
 
-    print(s)
-    print(c)
-    print(d)
+    a_p = decipher_profile(c[0:32] + a).decode()
+    print(parse(a_p))

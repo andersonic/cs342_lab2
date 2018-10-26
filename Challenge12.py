@@ -23,7 +23,7 @@ def find_blocksize():
 
 
 def using_ECB(f, blocksize):
-    i = bytes([0 for i in range(32)])
+    i = bytes([0 for i in range(blocksize * 2)])
     c = f(i)
     return c[0:blocksize] == c[blocksize:2* blocksize]
 

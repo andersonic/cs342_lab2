@@ -24,4 +24,6 @@ if __name__ == "__main__":
     b = b"ICE ICE BABY\x04\x04\x04\x04"
     c = b"ICE ICE BABY\x05\x05\x05\x05"
     d = b"ICE ICE BABY\x01\x02\x03\x04"
-    print(remove_padding(c))
+    print(padding_valid(b))
+    print(padding_valid(c))
+    print(padding_valid(d))

@@ -1,11 +1,12 @@
 class InvalidPaddingException(Exception):
     pass
 
-def padding_valid(b):
-    if len(b) % 16 != 0:
+
+def padding_valid(b, size=16):
+    if len(b) % size != 0:
         return False
     padding_byte = b[len(b) - 1]
-    if not 0 < padding_byte <= 16:
+    if not 0 < padding_byte <= size:
         return False
     for i in range(0, padding_byte):
         if b[len(b) - 1 - i] != padding_byte:
@@ -13,8 +14,8 @@ def padding_valid(b):
     return True
 
 
-def remove_padding(b):
-    if not padding_valid(b):
+def remove_padding(b, size=16):
+    if not padding_valid(b, size):
         raise InvalidPaddingException
     padding_byte = b[len(b) - 1]
     return b[:len(b) - padding_byte]

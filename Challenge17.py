@@ -10,7 +10,6 @@ def first_function():
         strings = file.read().split("\n")
 
     s = codecs.decode(strings[random.randint(0, len(strings) - 1)].encode(encoding='ascii'), encoding='base64')
-    print(s)
 
     IV = os.urandom(16)
 
@@ -80,7 +79,7 @@ def extract_message(c, IV):
             message += aux_extract_message(prev_block, current_block)
         prev_block = current_block
 
-    return bytes(message)
+    return bytes(c10.unpad(message))
 
 
 if __name__ == "__main__":

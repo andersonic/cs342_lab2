@@ -43,6 +43,7 @@ def aux_encrypt_AES_CBC(s, k, IV):
         previous_block_encypted = encrypted_block
     return bytes(encrypted_message)
 
+
 def encrypt_AES_CBC(s, k, IV):
     s = pad_to_16(s)
     return aux_encrypt_AES_CBC(s, k, IV)

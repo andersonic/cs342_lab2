@@ -27,7 +27,6 @@ def profile_for(email):
     global uid
     email = email.replace("&", "").replace("=", "")
     s = "email=" + email + "&uid=" + str(uid) + "&role='user'"
-    uid += 1
     return s
 
 
